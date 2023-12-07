@@ -18,7 +18,7 @@ class LoanTypesController extends Controller
 
     }
     public function store_loan(Request $request){
-        $staff=request()->validate([
+        $loan=request()->validate([
             'type_name' => 'required',
 
         ]);
@@ -29,10 +29,26 @@ class LoanTypesController extends Controller
 
         return redirect('admin/loan_types/list')->with('success','Loan Types Added Successfully');
     }
+    public function edit_loan_type($id,Request  $request){
+        $data['getRecord']=LoanTypes::getSingle($id);
+
+        $data['header_title']='Edit Loan Types';
+        return view('admin.loan_types.edit',$data);
+
+    }
     public function delete_loan_type($id,Request $request){
         $loanDelete=LoanTypes::getsingle($id);
         $loanDelete->delete();
         return redirect()->back()->with('success','Loan Types Deleted Successfully');
 
+    }
+    public function update_loan_type($id,Request $request) {
+
+        $loan=LoanTypes::getSingle($id);
+        $loan->type_name=trim($request->type_name);
+        $loan->description=trim($request->description);
+        $loan->save();
+
+        return redirect('admin/loan_types/list')->with('success','Loan Types Updated Successfully');
     }
 }

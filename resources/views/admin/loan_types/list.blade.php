@@ -13,11 +13,12 @@
                 <table class="table datatable">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Type Name</th>
-                            <th>Description</th>
-                            <th>Created Date</th>
-                            <th>Updated Date</th>
+                            <th scope="col">#</th>
+                            <th scope="col">Type Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Created Date</th>
+                            <th scope="col">Updated Date</th>
+                            <th scope="col">Action</th>
                         </tr>
 
                     </thead>

@@ -8,7 +8,7 @@
   <section class="section">
     <div class="row">
       <div class="col-lg-12">
-  @include('layouts._message')
+       @include('layouts._message')
         <div class="card">
           <div class="card-body">
             <h5 class="card-title"> <a href="{{ url('admin/staff/add') }}" class="btn btn-primary">Add Staff</a></h5>

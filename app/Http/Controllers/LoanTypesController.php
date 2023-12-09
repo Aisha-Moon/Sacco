@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class LoanTypesController extends Controller
 {
     public function index(){
-        $data['header_title']='Loan Types';$data;
+        $data['header_title']='Loan Types';
         $data['getRecord']=LoanTypes::getAllRecord();
         return view('admin.loan_types.list',$data);
     }

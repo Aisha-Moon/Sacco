@@ -45,7 +45,7 @@ class User extends Authenticatable
     static public function getAllRecord(){
         return self::where('is_delete',0)->get();
     }
-    static public function gitSingle($id){
+    static public function getSingle($id){
         return self::find($id);
     }
     public function getProfileImage(){

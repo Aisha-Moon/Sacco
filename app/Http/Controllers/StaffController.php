@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Mail\staffNewAccountCreate;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class StaffController extends Controller
 {
@@ -26,9 +29,10 @@ class StaffController extends Controller
             'name' => 'required',
             'surname' => 'required',
             'email'=>'required|unique:users',
-            'is_role' => 'required'
+            'is_role' => 'required',
+            'password' => 'required'
         ]);
-
+    
         $staff=new User();
         $staff->name=trim($request->name);
         $staff->last_name=trim($request->last_name);
@@ -43,12 +47,18 @@ class StaffController extends Controller
             $filename=time().'.'.$extension;
             $file->move('profile/images',$filename);
              $staff->profile_image=$filename;
-
+    
         }
         $staff->remember_token=Str::random(50);
+        $random_password=$request->password; 
+        $staff->password=Hash::make($random_password);
         $staff->save();
+        $staff->random_password=$random_password;
+        Mail::to($staff->email)->send(new staffNewAccountCreate($staff));
+    
         return redirect('admin/staff/list')->with('success','Account Created Successfully');
     }
+    
     public function edit_staff($id,Request $request){
         $data['header_title']='Edit Staff';
 
@@ -94,5 +104,10 @@ class StaffController extends Controller
         $staffDelete->save();
         return redirect()->back()->with('success','Record Deleted Successfully');
 
+    }
+    public function view_staff($id){
+        $data['getRecord']=User::getSingle($id);
+
+        return view('admin.staff.view',$data);
     }
 }

@@ -1,3 +1,6 @@
+@php
+    $getLogoImage=App\Models\Logo::find(1);
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,12 +8,12 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Pages / Login - SACCO management system</title>
+  <title>{{ !empty($header_title) ? $header_title : '' }} SACCO management system</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="{{url('assets/img/favicon.png')}}" rel="icon">
+  <link href="{{$getLogoImage->getLogo()}}" rel="icon">
   <link href="{{url('assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
@@ -44,8 +47,8 @@
 
               <div class="d-flex justify-content-center py-4">
                 <a href="{{url('index.html" class="logo d-flex align-items-center w-auto')}}">
-                  <img src="{{url('assets/img/logo.png')}}" alt="">
-                  <span class="d-none d-lg-block">SACCO</span>
+                  <img src="{{$getLogoImage->getLogo()}}" alt="">
+                  <span class="d-none d-lg-block">{{ $getLogoImage->name }}</span>
                 </a>
               </div><!-- End Logo -->
 

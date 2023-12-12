@@ -23,14 +23,18 @@ use App\Http\Controllers\LoanUserController;
 Route::get('/',[AuthController::class,'login']);
 Route::get('/register',[AuthController::class,'register']);
 Route::get('/forgot',[AuthController::class,'forgot']);
+Route::post('forgot/password',[AuthController::class,'forgot_pass']);
 Route::post('/register_post',[AuthController::class,'register_post']);
 Route::post('/login_post',[AuthController::class,'login_post']);
 
 Route::group(['middleware'=>'admin'],function(){
     Route::get('/admin/dashboard',[DashboardController::class,'index']);
+    Route::get('/admin/profile',[DashboardController::class,'profile']);
+    Route::post('/admin/profile/update',[DashboardController::class,'profile_update']);
     Route::get('admin/staff/list',[StaffController::class,'index']);
     Route::get('admin/staff/add',[StaffController::class,'add']);
     Route::post('admin/staff/add',[StaffController::class,'add_staff']);
+    Route::get('admin/staff/view/{id}',[StaffController::class,'view_staff']);
     Route::get('admin/staff/edit/{id}',[StaffController::class,'edit_staff']);
     Route::post('admin/staff/edit/{id}',[StaffController::class,'update_staff']);
     Route::get('admin/staff/delete/{id}',[StaffController::class,'delete_staff']);
@@ -59,12 +63,21 @@ Route::group(['middleware'=>'admin'],function(){
     Route::get('/admin/loan_user/list',[LoanUserController::class,'index']);
     Route::get('/admin/loan_user/add',[LoanUserController::class,'create']);
     Route::post('/admin/loan_user/add',[LoanUserController::class,'store']);
+    Route::get('/admin/loan_user/edit/{id}',[LoanUserController::class,'edit']);
+    Route::post('/admin/loan_user/edit/{id}',[LoanUserController::class,'update']);
     Route::get('/admin/loan_user/delete/{id}',[LoanUserController::class,'destroy']);
+//logo
+    Route::get('/admin/logo',[DashboardController::class,'website_logo']);
+    Route::post('admin/logo_update',[DashboardController::class,'logo_update']);
 
 
 });
 Route::group(['middleware'=>'staff'],function(){
     Route::get('/staff/dashboard',[DashboardController::class,'index']);
+    Route::get('staff/loan_user/list',[LoanUserController::class,'staff_loan_user']);
+    Route::get('staff/loan_user/delete/{id}',[LoanUserController::class,'staff_loan_delete']);
+    Route::get('staff/profile',[DashboardController::class,'staff_profile']);
+    Route::post('staff/profile_update',[DashboardController::class,'staff_profile_update']);
 
 });
 

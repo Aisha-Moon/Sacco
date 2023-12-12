@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\LoanUser;
+use App\Models\Loan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class LoanUserController extends Controller
 {
@@ -73,17 +76,29 @@ class LoanUserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $data['header_title']='Edit Loan User';
+        $data['getRecord']=LoanUser::getSingle($id);
+        return view('admin.loan_user.edit',$data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,$id)
     {
-        //
+        $update=LoanUser::getSingle($id);
+        $update->first_name=trim($request->first_name);
+        $update->middle_name=trim($request->middle_name);
+        $update->last_name=trim($request->last_name);
+        $update->address=trim($request->address);
+        $update->contact=trim($request->contact);
+        $update->email=trim($request->email);
+        $update->tax_id=trim($request->tax_id);
+        $update->save();
+        return redirect('admin/loan_user/list')->with('success','Loan User Updated Successfully');
+
     }
 
     /**
@@ -95,5 +110,20 @@ class LoanUserController extends Controller
         $recordDelete->delete();
 
         return redirect()->back()->with('success','Record deleted successfully ');
+    }
+
+    //staff
+    public function staff_loan_user(Request $request){
+        $data['header_title']='Staff Loan User';
+        $data['getRecord']=Loan::getLoanStaff(Auth::user()->id);
+
+        return view('admin.admin_staff.staff_loan_user',$data);
+    }
+    public function staff_loan_delete($id){
+        $delete=Loan::find($id);
+        $delete->delete();
+
+        return redirect()->back()->with('success','Record deleted successfully ');
+
     }
 }

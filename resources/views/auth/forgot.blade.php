@@ -3,7 +3,7 @@
   {{-- forgot password start --}}
 
   <div class="card mb-3">
-
+@include('layouts._message')
     <div class="card-body">
 
       <div class="pt-4 pb-2">
@@ -11,7 +11,8 @@
         <p class="text-center small">Enter your email and reset password</p>
       </div>
 
-      <form class="row g-3 needs-validation" novalidate method="post" action="">
+      <form class="row g-3 needs-validation" novalidate method="post" action="{{ url('forgot/password') }}">
+        {{ csrf_field() }}
 
         <div class="col-12">
           <label for="yourUsername" class="form-label">Email</label>
